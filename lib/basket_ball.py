@@ -182,3 +182,89 @@ def game_dict():
             ]
         }
     }
+
+def num_points_per_game(player_name):
+    game_data = game_dict()
+    for team in game_data.values():
+        for player in team['players']:
+            if player['name'] == player_name:
+                return player['points_per_game']
+    return None  
+
+print(num_points_per_game("Rui Hachimura"))
+
+def player_age(player_name):
+    game_data = game_dict()
+    for team in game_data.values():
+        for player in team['players']:
+            if player['name'] == player_name:
+                return player['age']
+    return None  
+print(player_age("Ricky Rubio"))
+ 
+def team_colors(team_name):
+    game_data = game_dict()
+
+    for team in [game_data['home'], game_data['away']]:
+        if team['team_name'] == team_name:
+            return team['colors']
+
+print(team_colors("Cleveland Cavaliers"))
+
+def team_names():
+    game_data = game_dict()
+
+    return [game_data['home']['team_name'], game_data['away']['team_name']]
+
+print(team_names())
+
+def player_numbers(team_name):
+    game_data = game_dict()
+
+    for team in [game_data['home'], game_data['away']]:
+        if team['team_name'] == team_name:
+            return [player['number'] for player in team['players']]
+
+print(player_numbers("Cleveland Cavaliers"))
+
+def player_stats(player_name):
+    game_data = game_dict()
+
+    for team in ['home', 'away']:
+        for player in game_data[team]['players']:
+            if player['name'] == player_name:
+                return {
+                    "name": player['name'],
+                    "number": player['number'],
+                    "position": player['position'],
+                    "points_per_game": player['points_per_game'],
+                    "rebounds_per_game": player['rebounds_per_game'],
+                    "assists_per_game": player['assists_per_game'],
+                    "steals_per_game": player['steals_per_game'],
+                    "blocks_per_game": player['blocks_per_game'],
+                    "career_points": player['career_points'],
+                    "age": player['age'],
+                    "height_inches": player['height_inches'],
+                    "shoe_brand": player['shoe_brand'],
+                }
+
+print(player_stats("Bradley Beal"))
+
+def average_rebounds_by_shoe_brand():
+    game_data = game_dict()
+    shoe_brand_rebounds = {}
+
+    for team in ['home', 'away']:
+        for player in game_data[team]['players']:
+            brand = player['shoe_brand']
+            if brand not in shoe_brand_rebounds:
+                shoe_brand_rebounds[brand] = []
+            shoe_brand_rebounds[brand].append(player['rebounds_per_game'])
+
+    for brand, rebounds_list in shoe_brand_rebounds.items():
+        average_rebounds = sum(rebounds_list) / len(rebounds_list)
+        print(f"{brand}: {average_rebounds:.2f}")
+
+average_rebounds_by_shoe_brand()
+
+
